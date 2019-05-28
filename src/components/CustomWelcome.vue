@@ -67,13 +67,11 @@
 <script>
 'kiwi public';
 
-import _ from 'lodash';
-import * as Misc from '@/helpers/Misc';
-import state from '@/libs/state';
-import Logger from '@/libs/Logger';
-import BouncerProvider from '@/libs/BouncerProvider';
-import StartupLayout from './CommonLayout';
-
+let state = kiwi.state;
+let Misc = kiwi.require('helpers/Misc');
+let Logger = kiwi.require('libs/Logger');
+let BouncerProvider = kiwi.require('libs/BouncerProvider');
+let StartupLayout = kiwi.require('components/startups/CommonLayout');
 let log = Logger.namespace('Welcome.vue');
 
 export default {
