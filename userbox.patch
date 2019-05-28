@@ -1,0 +1,57 @@
+diff --git "a/components/CustomUserBox.vue" "b/src/components/CustomUserBox.vue"
+index d77283a..33f2943 100644
+--- "a/components/CustomUserBox.vue"
++++ "b/src/components/CustomUserBox.vue"
+@@ -8,14 +8,26 @@
+         </div>
+ 
+         <div class="kiwi-userbox-basicinfo">
+-            <span class="kiwi-userbox-basicinfo-title">{{ $t('whois_realname') }}:</span>
+-            <span class="kiwi-userbox-basicinfo-data">{{ user.realname }} </span>
++
+             <span class="kiwi-userbox-basicinfo-title">{{ $t('whois_status') }}:</span>
+             <span class="kiwi-userbox-basicinfo-data">
+                 {{ user.away ? user.away : $t('whois_status_available') }}
+             </span>
++            <div v-if="asl.a">
++                <span class="kiwi-userbox-basicinfo-title">Age</span>
++                <span class="kiwi-userbox-basicinfo-data">{{asl.a}}</span>
++            </div>
++            <div v-if="asl.s">
++                <span class="kiwi-userbox-basicinfo-title">Sex</span>
++                <span class="kiwi-userbox-basicinfo-data">{{asl.s}}</span>
++            </div>
++            <div v-if="asl.l">
++                <span class="kiwi-userbox-basicinfo-title">Location</span>
++                <span class="kiwi-userbox-basicinfo-data">{{asl.l}}</span>
++            </div>
+         </div>
+ 
++
+         <p class="kiwi-userbox-actions">
+             <a class="kiwi-userbox-action" @click="openQuery">
+                 <i class="fa fa-comment-o" aria-hidden="true"/>
+@@ -131,7 +143,8 @@
+ 
+ 'kiwi public';
+ 
+-import state from '@/libs/state';
++import * as utils from '../libs/utils.js';
++let state = kiwi.state;
+ 
+ export default {
+     props: ['buffer', 'network', 'user'],
+@@ -139,9 +152,13 @@ export default {
+         return {
+             whoisRequested: false,
+             whoisLoading: false,
++            realname: '',
+         };
+     },
+     computed: {
++        asl() {
++            return utils.getASL(this.user.realname);
++        },
+         // Channel modes differ on some IRCds so get them from the network options
+         availableChannelModes: function availableChannelModes() {
+             let availableModes = [];
